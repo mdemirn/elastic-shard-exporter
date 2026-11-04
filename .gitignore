@@ -1,0 +1,4 @@
+# Build output
+/elasticsearch-shard-exporter
+/elasticsearch-shard-exporter-*
+.DS_Store

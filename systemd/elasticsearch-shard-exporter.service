@@ -1,0 +1,37 @@
+[Unit]
+Description=Elasticsearch Shard Prometheus Exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=prometheus
+Group=prometheus
+EnvironmentFile=-/etc/default/elasticsearch-shard-exporter
+ExecStart=/usr/local/bin/elasticsearch-shard-exporter \
+    --listen-address=:9061 \
+    --es-url=${ES_URL} \
+    --es-user=${ES_USER} \
+    --es-pass=${ES_PASS} \
+    --ssl-enable \
+    --ssl-skip-verify
+Restart=on-failure
+RestartSec=5s
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+ReadOnlyDirectories=/
+CapabilityBoundingSet=
+LimitNOFILE=65535
+LimitNPROC=4096
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=elasticsearch-shard-exporter
+
+[Install]
+WantedBy=multi-user.target
